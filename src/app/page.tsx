@@ -4,6 +4,9 @@ import { VisionMissionSection } from "@/components/blocks/vision-mission-section
 import { StatsSection } from "@/components/blocks/stats-section"
 import { ObjectivesSection } from "@/components/blocks/objectives-section"
 import { GoalsSection } from "@/components/blocks/goals-section"
+import { GallerySection } from "@/components/blocks/gallery-section"
+import { TestimonialsSection } from "@/components/blocks/testimonials-section"
+import { RegistrationSection } from "@/components/blocks/registration-section"
 import { FooterSection } from "@/components/blocks/footer-section"
 
 export default function Home() {
@@ -22,6 +25,9 @@ export default function Home() {
         <StatsSection />
         <ObjectivesSection />
         <GoalsSection />
+        <GallerySection />
+        <TestimonialsSection />
+        <RegistrationSection />
       </main>
       <FooterSection />
     </>

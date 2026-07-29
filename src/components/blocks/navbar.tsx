@@ -6,16 +6,16 @@ import { Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { LiveClock } from "@/components/features/live-clock"
+import { SearchBar } from "@/components/features/search-bar"
 
 const navItems = [
   { href: "#", label: "Home", id: "home" },
   { href: "#vision-mission", label: "About", id: "about" },
-  { href: "#position", label: "Position", id: "position" },
   { href: "#objectives", label: "Objectives", id: "objectives" },
   { href: "#goals", label: "Goals", id: "goals" },
-  { href: "#", label: "Publications", id: "publications" },
-  { href: "#", label: "Books", id: "books" },
-  { href: "#", label: "Blog", id: "blog" },
+  { href: "#gallery", label: "Gallery", id: "gallery" },
+  { href: "#testimonials", label: "Testimonials", id: "testimonials" },
+  { href: "#registration", label: "Join", id: "registration" },
 ]
 
 export function Navbar() {
@@ -95,6 +95,7 @@ export function Navbar() {
               </a>
             ))}
           </div>
+          <SearchBar />
           <a
             href="https://chat.whatsapp.com/IrDYcp6tA1e0Xf5ww7NHqg?s=sw&p=a&mlu=0&ilr=0&amv=0"
             target="_blank"
@@ -129,8 +130,8 @@ export function Navbar() {
             {navItems.map((item) => (
               <a
                 key={item.id}
-                href={item.href}
-              className="flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium text-primary-foreground/70 transition-all duration-200 hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              href={item.href}
+                className="flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium text-primary-foreground/70 transition-all duration-200 hover:bg-primary-foreground/10 hover:text-primary-foreground"
               onClick={() => setIsOpen(false)}
             >
               <span className="h-1.5 w-1.5 rounded-full bg-gold/40" />
