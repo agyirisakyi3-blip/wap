@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
+import { AnnouncementBanner } from "@/components/features/announcement-banner"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -37,6 +38,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}
     >
       <body className="min-h-screen bg-background font-sans antialiased">
+        <AnnouncementBanner />
         {children}
       </body>
     </html>

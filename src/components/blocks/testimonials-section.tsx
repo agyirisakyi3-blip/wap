@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { SectionHeading } from "@/components/features/section-heading"
 import { TestimonialCard } from "@/components/features/testimonial-card"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Quote, Sparkles } from "lucide-react"
 
 const testimonials = [
   {
@@ -70,26 +70,37 @@ export function TestimonialsSection() {
 
   useEffect(() => {
     if (isPaused) return
-    const timer = setInterval(next, 5000)
+    const timer = setInterval(next, 4000)
     return () => clearInterval(timer)
   }, [isPaused, next])
 
-  const visible = (() => {
+  const getVisible = () => {
     const items = []
     for (let i = 0; i < 3; i++) {
       items.push(testimonials[(current + i) % testimonials.length])
     }
     return items
-  })()
+  }
+
+  const visible = getVisible()
 
   return (
     <section
       id="testimonials"
-      className="relative bg-background py-16 sm:py-32"
+      className="relative bg-background py-16 sm:py-32 overflow-hidden"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
+      {/* Decorative elements */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent" />
+      <div className="absolute top-20 right-10 h-40 w-40 rounded-full border border-gold/10 animate-blob" />
+      <div className="absolute bottom-20 left-10 h-28 w-28 rounded-full border border-gold/10 animate-blob" style={{ animationDelay: "3s" }} />
+
+      {/* Large decorative quote */}
+      <div className="absolute top-10 left-10 text-[200px] font-serif leading-none text-gold/5 select-none">
+        &ldquo;
+      </div>
+
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           label="Testimonials"
@@ -98,41 +109,45 @@ export function TestimonialsSection() {
         />
 
         <div className="relative mt-10 sm:mt-16">
+          {/* Desktop grid */}
           <div className="hidden gap-6 sm:grid sm:grid-cols-3">
             {visible.map((item, index) => (
-              <TestimonialCard
+              <div
                 key={`${item.name}-${index}`}
-                {...item}
                 className="animate-fade-in"
-              />
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <TestimonialCard {...item} />
+              </div>
             ))}
           </div>
 
+          {/* Mobile single card */}
           <div className="sm:hidden">
-            <TestimonialCard
-              {...testimonials[current]}
-              className="animate-fade-in mx-auto max-w-md"
-            />
+            <div className="animate-fade-in">
+              <TestimonialCard {...testimonials[current]} />
+            </div>
           </div>
 
+          {/* Navigation */}
           <div className="mt-8 flex items-center justify-center gap-4 sm:mt-10">
             <button
               onClick={prev}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/10 bg-card text-muted-foreground transition-all duration-200 hover:bg-gold/10 hover:text-gold hover:border-gold/30"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-primary/10 bg-card text-muted-foreground shadow-sm transition-all duration-200 hover:bg-gold/10 hover:text-gold hover:border-gold/30 hover:shadow-lg hover:shadow-gold/10"
               aria-label="Previous testimonial"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
 
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2">
               {testimonials.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrent(index)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
+                  className={`rounded-full transition-all duration-500 ${
                     index === current
-                      ? "w-8 bg-gold"
-                      : "w-2 bg-primary/10 hover:bg-primary/20"
+                      ? "h-3 w-10 bg-gradient-to-r from-gold to-gold/60 shadow-sm shadow-gold/20"
+                      : "h-3 w-3 bg-primary/10 hover:bg-primary/20"
                   }`}
                   aria-label={`Go to testimonial ${index + 1}`}
                 />
@@ -141,11 +156,24 @@ export function TestimonialsSection() {
 
             <button
               onClick={next}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/10 bg-card text-muted-foreground transition-all duration-200 hover:bg-gold/10 hover:text-gold hover:border-gold/30"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-primary/10 bg-card text-muted-foreground shadow-sm transition-all duration-200 hover:bg-gold/10 hover:text-gold hover:border-gold/30 hover:shadow-lg hover:shadow-gold/10"
               aria-label="Next testimonial"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
+          </div>
+
+          {/* Stats bar */}
+          <div className="mt-10 flex items-center justify-center gap-6 text-xs text-muted-foreground sm:mt-12 sm:text-sm">
+            <span className="flex items-center gap-1.5">
+              <Sparkles className="h-3.5 w-3.5 text-gold" />
+              {testimonials.length} verified reviews
+            </span>
+            <span className="h-4 w-px bg-border" />
+            <span className="flex items-center gap-1.5">
+              <span className="text-gold">★★★★★</span>
+              4.9 average rating
+            </span>
           </div>
         </div>
       </div>

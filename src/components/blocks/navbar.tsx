@@ -16,6 +16,7 @@ const navItems = [
   { href: "#gallery", label: "Gallery", id: "gallery" },
   { href: "#testimonials", label: "Testimonials", id: "testimonials" },
   { href: "#registration", label: "Join", id: "registration" },
+  { href: "/apply", label: "Apply", id: "apply" },
 ]
 
 export function Navbar() {

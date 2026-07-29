@@ -8,6 +8,8 @@ import { GallerySection } from "@/components/blocks/gallery-section"
 import { TestimonialsSection } from "@/components/blocks/testimonials-section"
 import { RegistrationSection } from "@/components/blocks/registration-section"
 import { FooterSection } from "@/components/blocks/footer-section"
+import { AnimateOnScroll } from "@/components/features/animate-on-scroll"
+import { SectionDivider } from "@/components/features/section-divider"
 
 export default function Home() {
   return (
@@ -21,13 +23,43 @@ export default function Home() {
       <Navbar />
       <main id="main-content">
         <HeroSection />
-        <VisionMissionSection />
+        <AnimateOnScroll>
+          <VisionMissionSection />
+        </AnimateOnScroll>
+
+        <SectionDivider variant="wave" />
+
         <StatsSection />
-        <ObjectivesSection />
-        <GoalsSection />
-        <GallerySection />
-        <TestimonialsSection />
-        <RegistrationSection />
+
+        <SectionDivider variant="curve" className="text-background" />
+
+        <AnimateOnScroll>
+          <ObjectivesSection />
+        </AnimateOnScroll>
+
+        <SectionDivider variant="wave" />
+
+        <AnimateOnScroll>
+          <GoalsSection />
+        </AnimateOnScroll>
+
+        <SectionDivider variant="curve" className="text-background" />
+
+        <AnimateOnScroll>
+          <GallerySection />
+        </AnimateOnScroll>
+
+        <SectionDivider variant="wave" />
+
+        <AnimateOnScroll>
+          <TestimonialsSection />
+        </AnimateOnScroll>
+
+        <SectionDivider variant="angle" className="text-muted" />
+
+        <AnimateOnScroll>
+          <RegistrationSection />
+        </AnimateOnScroll>
       </main>
       <FooterSection />
     </>
