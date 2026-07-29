@@ -63,9 +63,31 @@ export function ApplyForm({ position, onBack }: ApplyFormProps) {
     e.preventDefault()
     if (!validate()) return
     setIsSubmitting(true)
-    await new Promise((r) => setTimeout(r, 2000))
-    setIsSubmitting(false)
-    setIsSubmitted(true)
+
+    try {
+      const res = await fetch("/api/submit-application", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          positionId: position.id,
+          fullName: formData.fullName || "",
+          email: formData.email || "",
+          phone: formData.phone || "",
+          institution: formData.institution || "",
+          country: formData.country || "",
+          message: formData.statement || formData.whyJoin || "",
+          photoUrl: formData.photo || "",
+        }),
+      })
+
+      if (!res.ok) throw new Error("Submission failed")
+
+      setIsSubmitted(true)
+    } catch {
+      setErrors({ _form: "Failed to submit. Please try again." })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (isSubmitted) {

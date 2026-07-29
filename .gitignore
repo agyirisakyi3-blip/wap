@@ -42,3 +42,6 @@ next-env.d.ts
 
 # deploy script (local workflow)
 deploy.ps1
+
+# google service account credentials
+wpa-credentials.json
