@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Navbar } from "@/components/blocks/navbar"
 import { FooterSection } from "@/components/blocks/footer-section"
-import { Shield } from "lucide-react"
+import { ShieldCheck, Mail } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Privacy Policy | World Professors Association",
@@ -32,22 +32,27 @@ const sections = [
   {
     title: "Your Rights",
     content:
-      "You have the right to access, correct, update, or request deletion of your personal information. You may also object to processing of your personal data and request data portability.",
+      "You have the right to access, correct, update, or request deletion of your personal information. You may also object to processing of your personal information and request that we restrict the processing of your data where applicable. To exercise any of these rights, please contact us using the details below.",
   },
   {
-    title: "Cookies",
+    title: "Data Retention",
     content:
-      "Our website uses cookies to enhance your browsing experience. You can control cookie preferences through your browser settings.",
+      "We retain your personal information only for as long as necessary to fulfill the purposes outlined in this policy, comply with legal obligations, resolve disputes, and enforce our agreements.",
   },
   {
-    title: "Changes to This Policy",
+    title: "International Data Transfers",
     content:
-      "We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page.",
+      "As an international association, your information may be transferred to and processed in countries outside your country of residence. We take reasonable steps to ensure that any such transfers are conducted with appropriate safeguards.",
+  },
+  {
+    title: "Changes to This Privacy Policy",
+    content:
+      "We may update this Privacy Policy from time to time to reflect changes in our practices or applicable law. We will notify members of material changes by posting the updated policy on this page.",
   },
   {
     title: "Contact Us",
     content:
-      "If you have any questions about this Privacy Policy, please contact us at privacy@wpa.global.",
+      "If you have any questions about this Privacy Policy or how we handle your personal information, please contact us at worldprofessorswpa@gmail.com or write to us at Kwame Nkrumah Avenue, Accra – Ghana, West Africa.",
   },
 ]
 
@@ -61,36 +66,66 @@ export default function PrivacyPolicyPage() {
         Skip to main content
       </a>
       <Navbar />
-      <main id="main-content" className="pt-28 sm:pt-36">
-        <section className="relative bg-background py-16 sm:py-24">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent" />
-          <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-12 text-center">
-              <div className="mb-4 inline-flex rounded-2xl bg-gold/10 p-3 text-gold">
-                <Shield className="h-8 w-8" />
-              </div>
-              <h1 className="text-3xl font-bold text-primary sm:text-4xl lg:text-5xl">
-                Privacy Policy
-              </h1>
-              <p className="mt-3 text-sm text-muted-foreground">
-                Last updated: July 2026
-              </p>
+      <main id="main-content" className="min-h-screen bg-background pt-24 sm:pt-32">
+        <div className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 sm:pb-32 lg:px-8">
+          <header className="border-b border-border pb-10 pt-6 sm:pb-12 sm:pt-10">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-sm border border-gold/25 bg-gold/10 text-gold">
+                <ShieldCheck className="h-5 w-5" />
+              </span>
+              <span className="text-[11px] font-medium uppercase tracking-[0.28em] text-gold sm:text-xs">
+                Legal
+              </span>
             </div>
+            <h1 className="mt-5 font-display text-4xl font-medium tracking-tight text-primary sm:text-5xl">
+              Privacy Policy
+            </h1>
+            <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+              Last updated: July 2026
+            </p>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              The World Professors Association (&ldquo;WPA&rdquo;) is committed to
+              protecting the privacy and security of the personal information of our
+              members, applicants, and website visitors.
+            </p>
+          </header>
 
-            <div className="space-y-8">
-              {sections.map((section, index) => (
-                <div key={index}>
-                  <h2 className="mb-3 text-xl font-bold text-primary">
-                    {index + 1}. {section.title}
+          <div className="mt-2">
+            {sections.map((section, index) => (
+              <section
+                key={section.title}
+                className="border-b border-border py-8 sm:py-10"
+              >
+                <div className="flex items-baseline gap-4">
+                  <span className="font-display text-lg italic text-gold/50 sm:text-xl">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h2 className="font-display text-xl font-medium tracking-tight text-primary sm:text-2xl">
+                    {section.title}
                   </h2>
-                  <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-                    {section.content}
-                  </p>
                 </div>
-              ))}
-            </div>
+                <p className="mt-3 pl-0 text-sm leading-relaxed text-muted-foreground sm:pl-9 sm:text-base">
+                  {section.content}
+                </p>
+              </section>
+            ))}
           </div>
-        </section>
+
+          <div className="mt-10 flex flex-col items-start gap-4 rounded-sm border border-gold/25 bg-gold/[0.04] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+            <div className="flex items-center gap-3">
+              <Mail className="h-5 w-5 text-gold" />
+              <div>
+                <p className="text-sm font-semibold text-primary">Questions?</p>
+                <p className="text-xs text-muted-foreground">
+                  worldprofessorswpa@gmail.com
+                </p>
+              </div>
+            </div>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              WPA • Accra • Global
+            </span>
+          </div>
+        </div>
       </main>
       <FooterSection />
     </>

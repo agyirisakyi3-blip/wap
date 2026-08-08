@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { ChevronRight, Sparkles } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 interface PositionCardProps {
   icon: React.ReactNode
@@ -26,48 +26,51 @@ export function PositionCard({
     <button
       onClick={onClick}
       className={cn(
-        "group relative w-full cursor-pointer text-left transition-all duration-500",
-        "rounded-2xl border-2 p-5 sm:p-6",
+        "group relative w-full cursor-pointer overflow-hidden rounded-sm border text-left transition-all duration-300",
         isSelected
-          ? "border-gold/50 bg-gradient-to-br from-gold/[0.04] to-gold/[0.01] shadow-lg shadow-gold/10"
-          : "border-border/60 bg-card shadow-sm hover:shadow-xl hover:-translate-y-1",
+          ? "border-gold/70 bg-gold/[0.04]"
+          : "border-border bg-card hover:border-gold/50 hover:bg-gold/[0.02]",
         className
       )}
     >
-      <div className={cn(
-        "absolute inset-0 rounded-2xl transition-opacity duration-500",
-        isSelected
-          ? "opacity-100"
-          : "opacity-0 group-hover:opacity-100"
-      )}>
-        <div className="absolute top-0 right-0 h-32 w-32 translate-x-8 -translate-y-8 rounded-full bg-gold/10 blur-2xl" />
-        <div className="absolute bottom-0 left-0 h-24 w-24 -translate-x-6 translate-y-6 rounded-full bg-gold/5 blur-xl" />
-      </div>
+      <div
+        className={cn(
+          "absolute top-0 left-0 h-[3px] w-0 bg-gold transition-all duration-500",
+          isSelected ? "w-full" : "group-hover:w-full"
+        )}
+      />
 
-      <div className="relative flex items-start gap-4">
-        <div className={cn(
-          "shrink-0 rounded-2xl p-3 transition-all duration-500 sm:p-3.5",
-          isSelected
-            ? "bg-gradient-to-br from-gold/20 to-gold/5 text-gold shadow-inner"
-            : "bg-gold/10 text-gold group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-gold/10"
-        )}>
+      <div className="relative flex items-start gap-4 p-5 sm:p-6">
+        <div
+          className={cn(
+            "flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border transition-colors duration-300",
+            isSelected
+              ? "border-gold/40 bg-gold/15 text-gold"
+              : "border-gold/20 bg-gold/5 text-gold"
+          )}
+        >
           {icon}
         </div>
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="text-base font-bold text-primary sm:text-lg">{title}</h3>
-            <ChevronRight className={cn(
-              "mt-0.5 h-5 w-5 shrink-0 transition-all duration-300",
-              isSelected ? "translate-x-0.5 text-gold" : "text-muted-foreground/30 group-hover:translate-x-0.5 group-hover:text-gold/60"
-            )} />
+            <h3 className="font-display text-lg font-medium tracking-tight text-primary">
+              {title}
+            </h3>
+            <ArrowUpRight
+              className={cn(
+                "mt-0.5 h-4 w-4 shrink-0 transition-all duration-300",
+                isSelected
+                  ? "text-gold"
+                  : "-translate-x-1 translate-y-1 text-gold opacity-0 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100"
+              )}
+            />
           </div>
-          <p className="mt-1 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+          <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
             {description}
           </p>
           {badge && (
-            <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-gold/10 px-2.5 py-0.5 text-[10px] font-medium text-gold sm:text-xs">
-              <Sparkles className="h-3 w-3" />
+            <div className="mt-3 inline-block rounded-sm border border-gold/25 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-gold">
               {badge}
             </div>
           )}

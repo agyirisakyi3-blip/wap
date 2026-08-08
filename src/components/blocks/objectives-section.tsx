@@ -1,5 +1,4 @@
 import { SectionHeading } from "@/components/features/section-heading"
-import { Card, CardContent } from "@/components/ui/card"
 import {
   BookOpen,
   Users,
@@ -50,36 +49,43 @@ const objectives = [
 
 export function ObjectivesSection() {
   return (
-    <section id="objectives" className="relative bg-secondary/50 py-16 sm:py-32">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section
+      id="objectives"
+      className="border-y border-border bg-card py-24 sm:py-36"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           label="Our Focus"
+          index="02"
           title="Key Objectives"
-          description="Seven core pillars that guide our efforts to transform global higher education."
+          description="Six core pillars that guide our efforts to transform global higher education."
         />
 
-        <div className="mt-10 grid gap-4 sm:mt-16 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-px border border-border bg-border sm:grid-cols-2 sm:mt-20 lg:grid-cols-3">
           {objectives.map((obj, index) => {
             const Icon = obj.icon
+            const num = String(index + 1).padStart(2, "0")
             return (
-              <Card
-                key={index}
-                className="group relative overflow-hidden border-primary/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+              <div
+                key={num}
+                className="group relative bg-background p-7 transition-colors duration-300 hover:bg-gold/[0.04] sm:p-9"
               >
-                <div className="absolute top-0 right-0 h-24 w-24 translate-x-6 -translate-y-6 rounded-full bg-gold/5 blur-xl transition-all duration-500 group-hover:scale-150" />
-                <CardContent className="relative p-5 sm:p-8">
-                  <div className="mb-3 inline-flex rounded-lg bg-gold/10 p-2 text-gold transition-transform duration-300 group-hover:scale-110 sm:mb-4 sm:rounded-xl sm:p-2.5">
-                    <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                <div className="absolute top-0 left-0 h-px w-0 bg-gold transition-all duration-500 group-hover:w-full" />
+                <div className="flex items-start justify-between">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-gold/25 text-gold transition-colors duration-300 group-hover:bg-gold/10">
+                    <Icon className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
                   </div>
-                  <h3 className="mb-2 text-base font-bold text-primary sm:mb-3 sm:text-lg">
-                    {obj.title}
-                  </h3>
-                  <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                    {obj.description}
-                  </p>
-                </CardContent>
-              </Card>
+                  <span className="font-display text-2xl font-normal italic text-gold/30">
+                    {num}
+                  </span>
+                </div>
+                <h3 className="mt-6 font-display text-lg font-medium tracking-tight text-primary">
+                  {obj.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {obj.description}
+                </p>
+              </div>
             )
           })}
         </div>

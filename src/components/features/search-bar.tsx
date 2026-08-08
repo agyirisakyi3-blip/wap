@@ -73,20 +73,20 @@ export function SearchBar() {
     <div className="relative" ref={panelRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-primary-foreground/60 transition-all duration-200 hover:bg-primary-foreground/10 hover:text-primary-foreground"
+        className="flex items-center gap-2 px-2 py-1.5 text-sm text-primary-foreground/60 transition-colors duration-200 hover:text-primary-foreground"
         aria-label="Search"
       >
         <Search className="h-4 w-4" />
         <span className="hidden sm:inline">Search</span>
-        <kbd className="hidden rounded border border-primary-foreground/20 px-1.5 py-0.5 text-[10px] text-primary-foreground/40 md:inline-block">
+        <kbd className="hidden rounded-sm border border-primary-foreground/20 px-1.5 py-0.5 text-[10px] text-primary-foreground/40 md:inline-block">
           Ctrl+K
         </kbd>
       </button>
 
       {isOpen && (
         <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 animate-scale-in">
-          <div className="overflow-hidden rounded-xl border border-border/50 bg-card shadow-2xl shadow-black/20">
-            <div className="flex items-center border-b border-border/50 px-4">
+          <div className="overflow-hidden rounded-sm border border-border bg-card shadow-xl shadow-black/10">
+            <div className="flex items-center border-b border-border px-4">
               <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
               <input
                 ref={inputRef}
@@ -115,11 +115,11 @@ export function SearchBar() {
                     href={result.href}
                     onClick={() => setIsOpen(false)}
                     className={cn(
-                      "flex items-start gap-3 px-4 py-3 transition-colors hover:bg-accent",
-                      "border-b border-border/30 last:border-b-0"
+                      "flex items-start gap-3 px-4 py-3 transition-colors hover:bg-accent/60",
+                      "border-b border-border/40 last:border-b-0"
                     )}
                   >
-                    <div className="mt-0.5 rounded-lg bg-gold/10 p-1.5 text-gold">
+                    <div className="mt-0.5 rounded-sm border border-gold/20 bg-gold/5 p-1.5 text-gold">
                       {result.icon}
                     </div>
                     <div>
@@ -129,6 +129,15 @@ export function SearchBar() {
                   </a>
                 ))
               )}
+            </div>
+
+            <div className="flex items-center justify-between border-t border-border px-4 py-2">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                {results.length} {results.length === 1 ? "result" : "results"}
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                Esc to close
+              </span>
             </div>
           </div>
         </div>

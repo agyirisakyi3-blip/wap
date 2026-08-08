@@ -1,20 +1,47 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
-import { StatCard } from "@/components/features/stat-card"
-import { Users, Globe, Award, Building2, Sparkles } from "lucide-react"
+import { Users, Globe, Building2, Award } from "lucide-react"
 
 const stats = [
-  { value: 10000, suffix: "+", label: "Professors Worldwide", icon: <Users className="h-6 w-6" /> },
-  { value: 120, suffix: "+", label: "Countries Represented", icon: <Globe className="h-6 w-6" /> },
-  { value: 500, suffix: "+", label: "Partner Institutions", icon: <Building2 className="h-6 w-6" /> },
-  { value: 50, suffix: "+", label: "Annual Events", icon: <Award className="h-6 w-6" /> },
+  { value: 10000, suffix: "+", label: "Professors Worldwide", icon: <Users className="h-4 w-4" /> },
+  { value: 120, suffix: "+", label: "Countries Represented", icon: <Globe className="h-4 w-4" /> },
+  { value: 500, suffix: "+", label: "Partner Institutions", icon: <Building2 className="h-4 w-4" /> },
+  { value: 50, suffix: "+", label: "Annual Events", icon: <Award className="h-4 w-4" /> },
 ]
 
-function AnimatedStat({ value, suffix, label, icon, delay }: { value: number; suffix: string; label: string; icon: React.ReactNode; delay: number }) {
+function CountUp({ value, suffix, inView }: { value: number; suffix: string; inView: boolean }) {
   const [count, setCount] = useState(0)
-  const [inView, setInView] = useState(false)
+
+  useEffect(() => {
+    if (!inView) return
+    const duration = 1800
+    const steps = 50
+    const increment = value / steps
+    let current = 0
+    const timer = setInterval(() => {
+      current += increment
+      if (current >= value) {
+        setCount(value)
+        clearInterval(timer)
+      } else {
+        setCount(Math.floor(current))
+      }
+    }, duration / steps)
+    return () => clearInterval(timer)
+  }, [inView, value])
+
+  return (
+    <span>
+      {count.toLocaleString()}
+      <span className="text-gold">{suffix}</span>
+    </span>
+  )
+}
+
+export function StatsSection() {
   const ref = useRef<HTMLDivElement>(null)
+  const [inView, setInView] = useState(false)
 
   useEffect(() => {
     const el = ref.current
@@ -32,67 +59,47 @@ function AnimatedStat({ value, suffix, label, icon, delay }: { value: number; su
     return () => observer.disconnect()
   }, [])
 
-  useEffect(() => {
-    if (!inView) return
-    const duration = 2000
-    const steps = 60
-    const increment = value / steps
-    let current = 0
-    const timer = setInterval(() => {
-      current += increment
-      if (current >= value) {
-        setCount(value)
-        clearInterval(timer)
-      } else {
-        setCount(Math.floor(current))
-      }
-    }, duration / steps)
-    return () => clearInterval(timer)
-  }, [inView, value])
-
   return (
-    <div
-      ref={ref}
-      className="animate-slide-up"
-      style={{ animationDelay: `${delay}s` }}
-    >
-      <StatCard
-        value={`${count.toLocaleString()}${suffix}`}
-        label={label}
-        icon={icon}
-        className="border-primary-foreground/10 bg-primary-foreground/5 text-primary-foreground [&_.text-muted-foreground]:text-primary-foreground/60 [&_.text-primary]:text-primary-foreground [&_.text-gold]:text-gold [&_.bg-gold\/10]:bg-gold/10"
-      />
-    </div>
-  )
-}
-
-export function StatsSection() {
-  return (
-    <section id="stats" className="relative bg-primary py-16 sm:py-28 overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gold/10 via-transparent to-transparent" />
-      <div className="absolute top-10 left-10 h-32 w-32 rounded-full border border-gold/10 animate-blob" />
-      <div className="absolute bottom-10 right-10 h-24 w-24 rounded-full border border-gold/10 animate-blob" style={{ animationDelay: "4s" }} />
+    <section id="stats" className="relative overflow-hidden bg-primary py-20 sm:py-28">
+      <div className="paper-grid absolute inset-0 opacity-40" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 text-center sm:mb-12">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-gold sm:px-4 sm:py-1.5 sm:text-xs">
-            <Sparkles className="h-3 w-3" />
-            Our Impact
-          </span>
-          <h2 className="mt-4 text-2xl font-bold tracking-tight text-primary-foreground sm:text-4xl lg:text-5xl">
+        <div className="mb-12 flex flex-col items-center gap-4 text-center sm:mb-16">
+          <span className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-gold sm:text-xs">
+            <span className="h-px w-8 bg-gold/60" />
             Our Global Reach
+            <span className="h-px w-8 bg-gold/60" />
+          </span>
+          <h2 className="font-display max-w-2xl text-3xl font-medium tracking-tight text-primary-foreground sm:text-4xl">
+            A worldwide community of scholars
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-primary-foreground/70 sm:mt-4 sm:text-base">
-            Growing stronger every day, connecting academics across borders and disciplines.
-          </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+        <div
+          ref={ref}
+          className="grid grid-cols-2 gap-px overflow-hidden border border-primary-foreground/12 bg-primary-foreground/12 lg:grid-cols-4"
+        >
           {stats.map((stat, index) => (
-            <AnimatedStat key={index} {...stat} delay={index * 0.15} />
+            <div
+              key={index}
+              className="group flex flex-col items-center gap-4 bg-primary/60 px-6 py-10 text-center transition-colors duration-300 hover:bg-primary/40 sm:py-14"
+            >
+              <div className="flex items-center gap-2 text-primary-foreground/40">
+                {stat.icon}
+                <span className="text-[10px] uppercase tracking-[0.2em]">{stat.label}</span>
+              </div>
+              <div className="font-display text-4xl font-semibold tracking-tight text-primary-foreground sm:text-5xl lg:text-6xl">
+                <CountUp value={stat.value} suffix={stat.suffix} inView={inView} />
+              </div>
+            </div>
           ))}
         </div>
+
+        <p className="mt-10 text-center text-xs uppercase tracking-[0.25em] text-primary-foreground/40 sm:text-sm">
+          Growing stronger every day — connecting academics across borders and disciplines
+        </p>
       </div>
     </section>
   )

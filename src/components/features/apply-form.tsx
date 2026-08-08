@@ -4,7 +4,7 @@ import { useState, useCallback } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { FileUpload } from "@/components/ui/file-upload"
-import { CheckCircle, Loader2, ArrowLeft, Send, Sparkles } from "lucide-react"
+import { CheckCircle, Loader2, ArrowLeft, Send } from "lucide-react"
 
 interface FormField {
   name: string
@@ -93,17 +93,19 @@ export function ApplyForm({ position, onBack }: ApplyFormProps) {
   if (isSubmitted) {
     return (
       <div className="animate-slide-up py-12 text-center sm:py-20">
-        <div className="mx-auto mb-6 flex h-20 w-20 animate-success-bounce items-center justify-center rounded-full bg-gradient-to-br from-gold/30 to-gold/10 shadow-lg shadow-gold/20 sm:h-24 sm:w-24">
+        <div className="mx-auto mb-6 flex h-20 w-20 animate-success-bounce items-center justify-center rounded-full border border-gold/40 bg-gold/10 sm:h-24 sm:w-24">
           <CheckCircle className="h-10 w-10 text-gold sm:h-12 sm:w-12" />
         </div>
         <div className="mx-auto max-w-md space-y-2">
-          <h2 className="text-2xl font-bold tracking-tight text-primary sm:text-3xl">
-            Application Submitted!
+          <h2 className="font-display text-3xl font-medium tracking-tight text-primary sm:text-4xl">
+            Application Submitted
           </h2>
-          <div className="flex items-center justify-center gap-1.5 text-sm text-gold">
-            <Sparkles className="h-4 w-4" />
-            <span className="font-medium">Application received</span>
-            <Sparkles className="h-4 w-4" />
+          <div className="flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-gold/50" />
+            <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-gold">
+              Application received
+            </span>
+            <span className="h-px w-8 bg-gold/50" />
           </div>
         </div>
         <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -115,7 +117,7 @@ export function ApplyForm({ position, onBack }: ApplyFormProps) {
         <Button
           variant="gold"
           size="lg"
-          className="mt-8 shadow-lg shadow-gold/20"
+          className="mt-8"
           onClick={onBack}
         >
           Browse More Positions
@@ -135,7 +137,6 @@ export function ApplyForm({ position, onBack }: ApplyFormProps) {
     (f.type === "file" || f.type === "image" || ["cv", "supportingDocs"].includes(f.name)) &&
     f.name !== "photo"
   )
-  const hasPhoto = position.fields.some((f) => f.name === "photo")
   const photoField = position.fields.find((f) => f.name === "photo")
 
   return (
@@ -149,14 +150,18 @@ export function ApplyForm({ position, onBack }: ApplyFormProps) {
       </button>
 
       <div className="mb-8 sm:mb-10">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-gold sm:px-4 sm:py-1.5 sm:text-xs">
-          <Send className="h-3 w-3" />
-          Application Form
-        </span>
-        <h2 className="mt-3 text-xl font-bold tracking-tight text-primary sm:text-2xl">
+        <div className="flex items-center gap-3">
+          <span className="flex h-6 w-6 items-center justify-center rounded-sm border border-gold/30 text-gold">
+            <Send className="h-3 w-3" />
+          </span>
+          <span className="text-[11px] font-medium uppercase tracking-[0.28em] text-gold">
+            Application Form
+          </span>
+        </div>
+        <h2 className="mt-3 font-display text-2xl font-medium tracking-tight text-primary sm:text-3xl">
           {position.title}
         </h2>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-2 text-sm text-muted-foreground">
           Fields marked with <span className="text-gold">*</span> are required
         </p>
       </div>
@@ -165,12 +170,11 @@ export function ApplyForm({ position, onBack }: ApplyFormProps) {
         {/* Personal Information */}
         {personalFields.length > 0 && (
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="h-px flex-1 bg-gradient-to-r from-gold/30 to-transparent" />
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
+            <div className="flex items-center gap-4">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground/70">
                 Personal Information
               </h3>
-              <div className="h-px flex-1 bg-gradient-to-l from-gold/30 to-transparent" />
+              <div className="h-px flex-1 bg-border" />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {personalFields.map((field) => (
@@ -192,12 +196,11 @@ export function ApplyForm({ position, onBack }: ApplyFormProps) {
         {/* Photo Upload */}
         {photoField && (
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="h-px flex-1 bg-gradient-to-r from-gold/30 to-transparent" />
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
+            <div className="flex items-center gap-4">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground/70">
                 Photo
               </h3>
-              <div className="h-px flex-1 bg-gradient-to-l from-gold/30 to-transparent" />
+              <div className="h-px flex-1 bg-border" />
             </div>
             <FileUpload
               id="photo"
@@ -216,12 +219,11 @@ export function ApplyForm({ position, onBack }: ApplyFormProps) {
         {/* Professional Details */}
         {professionalFields.length > 0 && (
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="h-px flex-1 bg-gradient-to-r from-gold/30 to-transparent" />
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
+            <div className="flex items-center gap-4">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground/70">
                 Professional Details
               </h3>
-              <div className="h-px flex-1 bg-gradient-to-l from-gold/30 to-transparent" />
+              <div className="h-px flex-1 bg-border" />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {professionalFields.map((field) => (
@@ -243,12 +245,11 @@ export function ApplyForm({ position, onBack }: ApplyFormProps) {
         {/* Document Uploads */}
         {fileFields.length > 0 && (
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="h-px flex-1 bg-gradient-to-r from-gold/30 to-transparent" />
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
+            <div className="flex items-center gap-4">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-foreground/70">
                 Documents
               </h3>
-              <div className="h-px flex-1 bg-gradient-to-l from-gold/30 to-transparent" />
+              <div className="h-px flex-1 bg-border" />
             </div>
             <div className="space-y-4">
               {fileFields.map((field) => (
@@ -269,7 +270,15 @@ export function ApplyForm({ position, onBack }: ApplyFormProps) {
         )}
 
         {/* Submit */}
-        <div className="flex flex-col items-center gap-3 rounded-xl border border-gold/10 bg-gradient-to-b from-gold/[0.02] to-transparent p-6 pt-8 sm:flex-row sm:justify-between sm:p-8">
+        {errors._form && (
+          <div
+            className="rounded-sm border border-gold/30 bg-gold/5 px-4 py-3 text-sm text-gold"
+            role="alert"
+          >
+            {errors._form}
+          </div>
+        )}
+        <div className="flex flex-col items-center gap-3 rounded-sm border border-border bg-card p-6 sm:flex-row sm:justify-between sm:p-8">
           <div className="text-center sm:text-left">
             <p className="text-sm font-medium text-primary">Ready to submit?</p>
             <p className="text-xs text-muted-foreground">
@@ -282,7 +291,7 @@ export function ApplyForm({ position, onBack }: ApplyFormProps) {
               variant="gold"
               size="lg"
               disabled={isSubmitting}
-              className="w-full shadow-lg shadow-gold/20 sm:w-auto"
+              className="w-full sm:w-auto"
             >
               {isSubmitting ? (
                 <>

@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback } from "react"
 import { SectionHeading } from "@/components/features/section-heading"
 import { TestimonialCard } from "@/components/features/testimonial-card"
-import { ChevronLeft, ChevronRight, Quote, Sparkles } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 const testimonials = [
   {
@@ -70,7 +71,7 @@ export function TestimonialsSection() {
 
   useEffect(() => {
     if (isPaused) return
-    const timer = setInterval(next, 4000)
+    const timer = setInterval(next, 5000)
     return () => clearInterval(timer)
   }, [isPaused, next])
 
@@ -87,90 +88,86 @@ export function TestimonialsSection() {
   return (
     <section
       id="testimonials"
-      className="relative bg-background py-16 sm:py-32 overflow-hidden"
+      className="relative overflow-hidden bg-background py-24 sm:py-36"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Decorative elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent" />
-      <div className="absolute top-20 right-10 h-40 w-40 rounded-full border border-gold/10 animate-blob" />
-      <div className="absolute bottom-20 left-10 h-28 w-28 rounded-full border border-gold/10 animate-blob" style={{ animationDelay: "3s" }} />
-
-      {/* Large decorative quote */}
-      <div className="absolute top-10 left-10 text-[200px] font-serif leading-none text-gold/5 select-none">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 font-display text-[220px] leading-none text-primary/[0.04] select-none sm:text-[320px]">
         &ldquo;
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           label="Testimonials"
+          index="05"
           title="What Our Members Say"
           description="Hear from professors around the world about their experience with WPA."
         />
 
-        <div className="relative mt-10 sm:mt-16">
-          {/* Desktop grid */}
+        <div className="mt-14 sm:mt-20">
           <div className="hidden gap-6 sm:grid sm:grid-cols-3">
             {visible.map((item, index) => (
               <div
                 key={`${item.name}-${index}`}
                 className="animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{ animationDelay: `${index * 0.08}s` }}
               >
                 <TestimonialCard {...item} />
               </div>
             ))}
           </div>
 
-          {/* Mobile single card */}
           <div className="sm:hidden">
             <div className="animate-fade-in">
               <TestimonialCard {...testimonials[current]} />
             </div>
           </div>
 
-          {/* Navigation */}
-          <div className="mt-8 flex items-center justify-center gap-4 sm:mt-10">
+          <div className="mt-10 flex items-center justify-center gap-6 sm:mt-12">
             <button
               onClick={prev}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-primary/10 bg-card text-muted-foreground shadow-sm transition-all duration-200 hover:bg-gold/10 hover:text-gold hover:border-gold/30 hover:shadow-lg hover:shadow-gold/10"
+              className="flex h-10 w-10 items-center justify-center rounded-sm border border-border bg-card text-muted-foreground transition-colors duration-200 hover:border-gold/50 hover:text-gold"
               aria-label="Previous testimonial"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4" />
             </button>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5" role="tablist" aria-label="Testimonials">
               {testimonials.map((_, index) => (
                 <button
                   key={index}
+                  role="tab"
+                  aria-selected={index === current}
                   onClick={() => setCurrent(index)}
-                  className={`rounded-full transition-all duration-500 ${
+                  className={cn(
+                    "font-display px-1.5 text-sm italic transition-colors duration-300",
                     index === current
-                      ? "h-3 w-10 bg-gradient-to-r from-gold to-gold/60 shadow-sm shadow-gold/20"
-                      : "h-3 w-3 bg-primary/10 hover:bg-primary/20"
-                  }`}
+                      ? "text-gold"
+                      : "text-muted-foreground/40 hover:text-muted-foreground"
+                  )}
                   aria-label={`Go to testimonial ${index + 1}`}
-                />
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </button>
               ))}
             </div>
 
             <button
               onClick={next}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-primary/10 bg-card text-muted-foreground shadow-sm transition-all duration-200 hover:bg-gold/10 hover:text-gold hover:border-gold/30 hover:shadow-lg hover:shadow-gold/10"
+              className="flex h-10 w-10 items-center justify-center rounded-sm border border-border bg-card text-muted-foreground transition-colors duration-200 hover:border-gold/50 hover:text-gold"
               aria-label="Next testimonial"
             >
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-4 w-4" />
             </button>
           </div>
 
-          {/* Stats bar */}
-          <div className="mt-10 flex items-center justify-center gap-6 text-xs text-muted-foreground sm:mt-12 sm:text-sm">
-            <span className="flex items-center gap-1.5">
-              <Sparkles className="h-3.5 w-3.5 text-gold" />
+          <div className="mt-12 flex items-center justify-center gap-8 text-xs text-muted-foreground sm:text-sm">
+            <span className="flex items-center gap-2">
+              <span className="inline-block h-1 w-1 rounded-full bg-gold" />
               {testimonials.length} verified reviews
             </span>
             <span className="h-4 w-px bg-border" />
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-2">
               <span className="text-gold">★★★★★</span>
               4.9 average rating
             </span>

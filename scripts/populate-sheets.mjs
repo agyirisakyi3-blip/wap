@@ -1,5 +1,4 @@
 import { google } from "googleapis"
-import { readFileSync, existsSync } from "fs"
 import { join, dirname } from "path"
 import { fileURLToPath } from "url"
 

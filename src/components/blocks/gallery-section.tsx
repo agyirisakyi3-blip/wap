@@ -4,6 +4,7 @@ import { useState } from "react"
 import { SectionHeading } from "@/components/features/section-heading"
 import { GalleryCard } from "@/components/features/gallery-card"
 import { LightboxModal } from "@/components/features/lightbox-modal"
+import { cn } from "@/lib/utils"
 import {
   GraduationCap,
   Globe,
@@ -41,32 +42,45 @@ export function GallerySection() {
     : galleryItems.filter((item) => item.category === activeCategory)
 
   return (
-    <section id="gallery" className="relative bg-secondary/50 py-16 sm:py-32">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent" />
+    <section id="gallery" className="relative border-y border-border bg-card py-24 sm:py-36">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           label="Our Moments"
+          index="04"
           title="Photo Gallery"
           description="A glimpse into the events, conferences, and community activities that define WPA."
         />
 
-        <div className="mt-8 flex flex-wrap justify-center gap-2 sm:mt-12 sm:gap-3">
+        <div
+          className="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-3 sm:mt-16"
+          role="tablist"
+          aria-label="Gallery categories"
+        >
           {categories.map((cat) => (
             <button
               key={cat}
+              role="tab"
+              aria-selected={activeCategory === cat}
               onClick={() => setActiveCategory(cat)}
-              className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all duration-200 sm:px-6 sm:py-2 sm:text-sm ${
+              className={cn(
+                "relative pb-2 text-sm font-medium tracking-wide transition-colors duration-200 sm:text-base",
                 activeCategory === cat
-                  ? "bg-gold text-primary-foreground shadow-lg shadow-gold/20"
-                  : "bg-primary-foreground/5 text-muted-foreground hover:bg-primary-foreground/10 hover:text-primary"
-              }`}
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-primary"
+              )}
             >
               {cat}
+              <span
+                className={cn(
+                  "absolute bottom-0 left-0 h-px bg-gold transition-all duration-300",
+                  activeCategory === cat ? "w-full" : "w-0"
+                )}
+              />
             </button>
           ))}
         </div>
 
-        <div className="mt-8 grid gap-4 sm:mt-12 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-10 grid gap-5 sm:mt-14 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((item, index) => (
             <GalleryCard
               key={index}

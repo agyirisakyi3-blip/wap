@@ -1,5 +1,4 @@
 import { SectionHeading } from "@/components/features/section-heading"
-import { Card, CardContent } from "@/components/ui/card"
 import {
   Network,
   Globe,
@@ -8,6 +7,7 @@ import {
   Cpu,
   BookOpen,
   Heart,
+  ArrowUpRight,
 } from "lucide-react"
 
 const goals = [
@@ -52,48 +52,51 @@ const goals = [
     title: "Lifelong Learning",
     description:
       "Foster lifelong learning, inclusiveness, and sustainable development through education.",
-    fullWidth: true,
   },
 ]
 
 export function GoalsSection() {
   return (
-    <section id="goals" className="relative bg-background py-16 sm:py-32">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="goals" className="relative bg-background py-24 sm:py-36">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           label="Our Ambition"
+          index="03"
           title="Strategic Goals"
           description="Ambitious targets that drive our mission forward and create lasting impact."
         />
 
-        <div className="mt-10 grid gap-4 sm:mt-16 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {goals.map((goal, index) => {
-            const Icon = goal.icon
-            return (
-              <Card
-                key={index}
-                className={`group relative overflow-hidden border-primary/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
-                  goal.fullWidth ? "sm:col-span-2 lg:col-span-3" : ""
-                }`}
-              >
-                <div className="absolute top-0 right-0 h-24 w-24 translate-x-6 -translate-y-6 rounded-full bg-gold/5 blur-xl transition-all duration-500 group-hover:scale-150" />
-                <CardContent className="relative flex items-start gap-3 p-5 sm:gap-5 sm:p-8">
-                  <div className="shrink-0 rounded-lg bg-gold/10 p-2 text-gold transition-transform duration-300 group-hover:scale-110 sm:rounded-xl sm:p-2.5">
-                    <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+        <div className="mx-auto mt-14 max-w-5xl sm:mt-20">
+          <div className="border-t border-border">
+            {goals.map((goal, index) => {
+              const Icon = goal.icon
+              const num = String(index + 1).padStart(2, "0")
+              return (
+                <div
+                  key={num}
+                  className="group grid grid-cols-12 items-baseline gap-3 border-b border-border py-6 transition-colors duration-300 hover:bg-gold/[0.03] sm:gap-6 sm:py-8"
+                >
+                  <div className="col-span-2 sm:col-span-1">
+                    <span className="font-display text-lg font-normal italic text-gold/50 sm:text-xl">
+                      {num}
+                    </span>
                   </div>
-                  <div>
-                    <h3 className="mb-1.5 text-base font-bold text-primary sm:mb-2 sm:text-lg">
+                  <div className="col-span-10 flex items-baseline gap-3 sm:col-span-4 sm:gap-4">
+                    <Icon className="h-4 w-4 shrink-0 self-center text-gold/70" />
+                    <h3 className="font-display text-lg font-medium tracking-tight text-primary sm:text-xl">
                       {goal.title}
                     </h3>
-                    <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                      {goal.description}
-                    </p>
                   </div>
-                </CardContent>
-              </Card>
-            )
-          })}
+                  <p className="col-span-11 col-start-2 text-sm leading-relaxed text-muted-foreground sm:col-span-6 sm:col-start-6 sm:text-base">
+                    {goal.description}
+                  </p>
+                  <div className="hidden justify-end sm:col-span-1 sm:flex">
+                    <ArrowUpRight className="h-4 w-4 -translate-x-1 translate-y-1 text-gold opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100" />
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </section>

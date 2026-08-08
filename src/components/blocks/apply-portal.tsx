@@ -3,13 +3,14 @@
 import { useState, useMemo, useEffect } from "react"
 import { PositionCard } from "@/components/features/position-card"
 import { ApplyForm } from "@/components/features/apply-form"
-import { ChevronLeft, ArrowRight, Sparkles, GraduationCap, Loader2 } from "lucide-react"
+import { MembershipForm } from "@/components/features/membership-form"
+import { ChevronLeft, ArrowRight, GraduationCap } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
-  Crown, Users, Building2, Award, Globe, BookOpen, Shield, Handshake, Scale, Star, Lightbulb, UserPlus, School, Microscope, FileText,
+  Crown, Users, Globe, BookOpen, Shield, Handshake, Scale, Star, Lightbulb, UserPlus, Microscope, FileText,
 } from "lucide-react"
 
-type Step = "categories" | "positions" | "form"
+type Step = "categories" | "positions" | "form" | "membership"
 
 interface FormField {
   name: string
@@ -122,7 +123,6 @@ const posIconMap: Record<string, React.ReactNode> = {
 
 const photoField: FormField = { name: "photo", label: "Profile Photo", type: "image", required: false }
 const cvField: FormField = { name: "cv", label: "Upload CV", type: "file", required: false }
-const supportingDocsField: FormField = { name: "supportingDocs", label: "Supporting Documents", type: "file", required: false }
 
 export function ApplyPortal() {
   const [step, setStep] = useState<Step>("categories")
@@ -206,6 +206,11 @@ export function ApplyPortal() {
     setStep("form")
   }
 
+  const handleMembershipSelect = () => {
+    setAnimDir("left")
+    setStep("membership")
+  }
+
   const handleBack = () => {
     setAnimDir("right")
     if (step === "positions") {
@@ -214,6 +219,8 @@ export function ApplyPortal() {
     } else if (step === "form") {
       setStep("positions")
       setSelectedPosition(null)
+    } else if (step === "membership") {
+      setStep("categories")
     }
   }
 
@@ -222,10 +229,48 @@ export function ApplyPortal() {
 
   if (loading) {
     return (
-      <section className="flex min-h-[60vh] items-center justify-center bg-background">
-        <div className="text-center">
-          <Loader2 className="mx-auto h-8 w-8 animate-spin text-gold" />
-          <p className="mt-4 text-sm text-muted-foreground">Loading application data...</p>
+      <section className="relative overflow-hidden bg-background py-16 sm:py-24">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 text-center sm:mb-14">
+            <div className="mx-auto flex items-center justify-center gap-3">
+              <div className="h-px w-8 animate-pulse bg-gold/40" />
+              <div className="h-3 w-40 animate-pulse rounded-sm bg-muted" />
+              <div className="h-px w-8 animate-pulse bg-gold/40" />
+            </div>
+            <div className="mx-auto mt-5 h-9 w-56 animate-pulse rounded-sm bg-muted sm:h-11" />
+            <div className="mx-auto mt-3 h-4 w-72 max-w-full animate-pulse rounded-sm bg-muted" />
+          </div>
+
+          <div className="mb-10 animate-pulse rounded-sm border border-border/60 bg-card p-8 sm:p-9">
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+              <div className="h-20 w-20 shrink-0 rounded-sm bg-muted" />
+              <div className="flex-1 space-y-3">
+                <div className="flex gap-2">
+                  <div className="h-4 w-24 rounded-sm bg-muted" />
+                  <div className="h-4 w-36 rounded-sm bg-muted" />
+                </div>
+                <div className="h-5 w-52 rounded-sm bg-muted" />
+                <div className="h-3 w-full max-w-lg rounded-sm bg-muted" />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="animate-pulse rounded-sm border border-border/60 bg-card p-8">
+                <div className="flex items-start justify-between">
+                  <div className="h-12 w-12 rounded-sm bg-muted" />
+                  <div className="h-5 w-8 rounded-sm bg-muted" />
+                </div>
+                <div className="mt-5 h-4 w-24 rounded-sm bg-muted" />
+                <div className="mt-3 h-5 w-40 rounded-sm bg-muted" />
+                <div className="mt-3 space-y-2">
+                  <div className="h-3 w-full rounded-sm bg-muted" />
+                  <div className="h-3 w-4/5 rounded-sm bg-muted" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     )
@@ -244,122 +289,161 @@ export function ApplyPortal() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-primary pt-28 pb-16 sm:pt-36 sm:pb-24">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 h-[600px] w-[600px] translate-x-1/3 -translate-y-1/3 rounded-full bg-gold/10 blur-3xl" />
-          <div className="absolute bottom-0 left-0 h-[400px] w-[400px] -translate-x-1/3 translate-y-1/3 rounded-full bg-blue-500/10 blur-3xl" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent" />
-        </div>
-        <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-gold/40 animate-float" />
-        <div className="absolute bottom-20 right-20 h-3 w-3 rounded-full bg-gold/30 animate-float" style={{ animationDelay: "1s" }} />
-        <div className="absolute top-1/3 left-1/4 h-1.5 w-1.5 rounded-full bg-gold/20 animate-float" style={{ animationDelay: "2s" }} />
+      <section className="relative overflow-hidden bg-primary pt-32 pb-16 sm:pt-40 sm:pb-24">
+        <div className="paper-grid mask-fade-b absolute inset-0" />
+        <div className="absolute -top-32 right-0 h-[420px] w-[420px] rounded-full bg-gold/[0.07] blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-medium text-gold shadow-sm sm:px-4 sm:py-1.5 sm:text-sm">
-            <GraduationCap className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-            World Professors Association
+          <div className="flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-gold" />
+            <span className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.3em] text-gold sm:text-xs">
+              <GraduationCap className="h-3.5 w-3.5" />
+              World Professors Association
+            </span>
+            <span className="h-px w-8 bg-gold" />
           </div>
-          <h1 className="mt-6 animate-slide-up text-3xl font-bold leading-tight tracking-tight text-primary-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="mt-6 animate-slide-up font-display text-4xl font-medium leading-tight tracking-tight text-primary-foreground sm:text-6xl">
             Application Portal
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl animate-slide-up text-sm text-primary-foreground/70 sm:text-base sm:text-lg" style={{ animationDelay: "0.1s" }}>
-            Apply for leadership positions, join committees, become a member, or nominate distinguished educators for honorary titles.
+          <p className="mx-auto mt-5 max-w-2xl animate-slide-up text-sm text-primary-foreground/70 sm:text-lg" style={{ animationDelay: "0.1s" }}>
+            Apply for leadership positions, join committees, become a member, or
+            nominate distinguished educators for honorary titles.
           </p>
         </div>
       </section>
 
-      <section className="relative bg-background py-16 sm:py-24">
+      <section className="relative overflow-x-hidden bg-background py-16 sm:py-24">
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 h-64 w-64 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent" />
           <div className="absolute bottom-0 right-0 h-64 w-64 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent" />
         </div>
 
         <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 flex items-center justify-center sm:mb-16">
-            <div className="flex items-center gap-0 rounded-2xl border border-border/50 bg-card p-1.5 shadow-sm">
-              {stepNames.map((name, i) => (
-                <div key={name} className="flex items-center">
-                  {i > 0 && (
-                    <div className={cn(
-                      "mx-2 h-px w-6 transition-colors duration-500 sm:w-10",
-                      i <= stepVal ? "bg-gold/40" : "bg-border"
-                    )} />
-                  )}
-                  <div className={cn(
-                    "flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium transition-all duration-500 sm:px-4 sm:py-2.5 sm:text-sm",
-                    stepVal === i
-                      ? "bg-gold text-primary-foreground shadow-lg shadow-gold/20"
-                      : stepVal > i
-                        ? "text-gold"
-                        : "text-muted-foreground/50"
-                  )}>
-                    <span className={cn(
-                      "flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold sm:h-6 sm:w-6 sm:text-xs",
-                      stepVal === i
-                        ? "bg-white/20 text-primary-foreground"
-                        : stepVal > i
-                          ? "bg-gold/20 text-gold"
-                          : "bg-muted text-muted-foreground/50"
-                    )}>
-                      {stepVal > i ? "\u2713" : i + 1}
-                    </span>
-                    <span className="hidden sm:inline">{name}</span>
+          {step !== "membership" && (
+            <div className="mb-12 flex items-center justify-center sm:mb-16">
+              <div className="flex items-center gap-3 sm:gap-5">
+                {stepNames.map((name, i) => (
+                  <div key={name} className="flex items-center">
+                    {i > 0 && (
+                      <div className={cn(
+                        "mx-1 h-px w-6 transition-colors duration-500 sm:mx-2 sm:w-12",
+                        i <= stepVal ? "bg-gold/60" : "bg-border"
+                      )} />
+                    )}
+                    <div className="flex items-center gap-2.5">
+                      <span className={cn(
+                        "font-display text-sm italic transition-colors duration-500 sm:text-base",
+                        stepVal === i
+                          ? "text-gold"
+                          : stepVal > i
+                            ? "text-gold/60"
+                            : "text-muted-foreground/40"
+                      )}>
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className={cn(
+                        "hidden text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-500 sm:block",
+                        stepVal === i
+                          ? "text-primary"
+                          : stepVal > i
+                            ? "text-gold/70"
+                            : "text-muted-foreground/50"
+                      )}>
+                        {name}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {step === "categories" && (
             <div className={animDir === "left" ? "animate-slide-left" : "animate-slide-right"}>
               <div className="mb-10 text-center sm:mb-14">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-gold sm:px-4 sm:py-1.5 sm:text-xs">
-                  <Sparkles className="h-3 w-3" />
+                <span className="flex items-center justify-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-gold sm:text-xs">
+                  <span className="h-px w-8 bg-gold/60" />
                   Step 1 of 3
+                  <span className="h-px w-8 bg-gold/60" />
                 </span>
-                <h2 className="mt-4 text-2xl font-bold tracking-tight text-primary sm:text-3xl">
+                <h2 className="mt-4 font-display text-3xl font-medium tracking-tight text-primary sm:text-4xl">
                   Choose a Category
                 </h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Select the category that best matches your interest
+                <p className="mt-3 text-sm text-muted-foreground">
+                  Apply for a leadership position, or use the official form to become a member
                 </p>
               </div>
 
+              <button
+                onClick={handleMembershipSelect}
+                className="group relative mb-10 block w-full overflow-hidden rounded-sm border border-gold/40 bg-card p-6 text-left shadow-sm transition-all duration-500 hover:border-gold/70 sm:p-9"
+              >
+                <div className="absolute top-0 left-0 h-[3px] w-0 bg-gradient-to-r from-gold to-gold/40 transition-all duration-500 group-hover:w-full" />
+                <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center">
+                  <div className="shrink-0">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-sm border border-gold/30 bg-gold/10 text-gold transition-colors duration-300 group-hover:bg-gold/15 sm:h-20 sm:w-20">
+                      <FileText className="h-7 w-7 sm:h-9 sm:w-9" />
+                    </div>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-block rounded-sm bg-gold px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary sm:text-xs">
+                        Official Form
+                      </span>
+                      <span className="inline-block rounded-sm border border-gold/30 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-gold sm:text-xs">
+                        Membership Application 2026
+                      </span>
+                    </div>
+                    <h3 className="mt-3 font-display text-xl font-medium tracking-tight text-primary sm:text-2xl">
+                      Membership Application
+                    </h3>
+                    <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                      Join the World Professors&apos; Association as a member. Complete the
+                      official application form covering personal details, academic
+                      background, membership category, referees, and required attachments.
+                    </p>
+                    <div className="mt-4 flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.15em] text-gold transition-all duration-300 group-hover:gap-3">
+                      Start membership application
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </div>
+                  </div>
+                </div>
+              </button>
+
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {categories.map((cat) => (
+                {categories.map((cat, i) => (
                   <button
                     key={cat.id}
                     onClick={() => handleCategorySelect(cat)}
-                    className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card p-6 text-left shadow-sm transition-all duration-500 hover:shadow-xl hover:-translate-y-1.5 sm:p-8"
+                    className="group relative overflow-hidden rounded-sm border border-border bg-card p-6 text-left shadow-sm transition-all duration-500 hover:border-gold/50 sm:p-8"
                   >
-                    <div className={cn(
-                      "absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100",
-                      `bg-gradient-to-br ${cat.gradientLight}`
-                    )} />
-                    <div className="absolute top-0 right-0 h-32 w-32 translate-x-8 -translate-y-8 rounded-full bg-gold/5 blur-2xl transition-all duration-500 group-hover:scale-150" />
-
-                    <div className="relative">
+                    <div className="absolute top-0 left-0 h-px w-0 bg-gold transition-all duration-500 group-hover:w-full" />
+                    <div className="flex items-start justify-between">
                       <div className={cn(
-                        "mb-5 inline-flex rounded-2xl p-3.5 text-white shadow-lg transition-all duration-500 sm:p-4",
-                        `bg-gradient-to-br ${cat.gradient}`,
-                        "group-hover:scale-105 group-hover:shadow-xl"
+                        "flex h-12 w-12 items-center justify-center rounded-sm text-white transition-transform duration-300 group-hover:-translate-y-0.5",
+                        `bg-gradient-to-br ${cat.gradient}`
                       )}>
                         {cat.icon}
                       </div>
-
-                      <span className="mb-2 inline-block rounded-full bg-gold/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-gold sm:text-xs">
-                        {cat.summary}
+                      <span className="font-display text-xl font-normal italic text-gold/30">
+                        {String(i + 1).padStart(2, "0")}
                       </span>
+                    </div>
 
-                      <h3 className="text-lg font-bold text-primary sm:text-xl">{cat.title}</h3>
-                      <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                        {cat.description}
-                      </p>
+                    <span className="mt-5 inline-block rounded-sm border border-gold/25 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-gold">
+                      {cat.summary}
+                    </span>
 
-                      <div className="mt-5 flex items-center gap-1.5 text-xs font-medium text-gold transition-all duration-300 group-hover:gap-2.5">
-                        {cat.positions.length} position{cat.positions.length > 1 ? "s" : ""}
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                      </div>
+                    <h3 className="mt-3 font-display text-lg font-medium tracking-tight text-primary">
+                      {cat.title}
+                    </h3>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                      {cat.description}
+                    </p>
+
+                    <div className="mt-6 flex items-center gap-1.5 border-t border-border pt-4 text-xs font-medium uppercase tracking-[0.15em] text-gold transition-all duration-300 group-hover:gap-3">
+                      {cat.positions.length} position{cat.positions.length > 1 ? "s" : ""}
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                     </div>
                   </button>
                 ))}
@@ -379,20 +463,20 @@ export function ApplyPortal() {
 
               <div className="mb-8 flex items-start gap-5 sm:mb-10">
                 <div className={cn(
-                  "shrink-0 rounded-2xl p-3 text-white shadow-lg sm:p-4",
+                  "shrink-0 rounded-sm p-3 text-white sm:p-4",
                   `bg-gradient-to-br ${selectedCategory.gradient}`
                 )}>
                   {catIconLarge[selectedCategory.id] || <FileText className="h-12 w-12 sm:h-16 sm:w-16" />}
                 </div>
                 <div>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-gold sm:px-4 sm:py-1.5 sm:text-xs">
-                    <Sparkles className="h-3 w-3" />
+                  <span className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-gold">
+                    <span className="h-px w-6 bg-gold/60" />
                     Step 2 of 3
                   </span>
-                  <h2 className="mt-3 text-xl font-bold tracking-tight text-primary sm:text-2xl">
+                  <h2 className="mt-3 font-display text-2xl font-medium tracking-tight text-primary sm:text-3xl">
                     {selectedCategory.title}
                   </h2>
-                  <p className="mt-1 text-sm text-muted-foreground">
+                  <p className="mt-1.5 max-w-xl text-sm text-muted-foreground">
                     {selectedCategory.description}
                   </p>
                 </div>
@@ -417,6 +501,14 @@ export function ApplyPortal() {
             <div className={animDir === "left" ? "animate-slide-left" : "animate-slide-right"}>
               <div className="mx-auto max-w-2xl">
                 <ApplyForm position={selectedPosition} onBack={handleBack} />
+              </div>
+            </div>
+          )}
+
+          {step === "membership" && (
+            <div className={animDir === "left" ? "animate-slide-left" : "animate-slide-right"}>
+              <div className="mx-auto max-w-3xl">
+                <MembershipForm onBack={handleBack} />
               </div>
             </div>
           )}

@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Navbar } from "@/components/blocks/navbar"
 import { FooterSection } from "@/components/blocks/footer-section"
-import { FileText } from "lucide-react"
+import { ScrollText, Mail } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Terms of Service | World Professors Association",
@@ -52,7 +52,7 @@ const sections = [
   {
     title: "Contact",
     content:
-      "For questions about these Terms of Service, please contact us at legal@wpa.global.",
+      "For questions about these Terms of Service, please contact us at worldprofessorswpa@gmail.com.",
   },
 ]
 
@@ -66,36 +66,66 @@ export default function TermsOfServicePage() {
         Skip to main content
       </a>
       <Navbar />
-      <main id="main-content" className="pt-28 sm:pt-36">
-        <section className="relative bg-background py-16 sm:py-24">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent" />
-          <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-12 text-center">
-              <div className="mb-4 inline-flex rounded-2xl bg-gold/10 p-3 text-gold">
-                <FileText className="h-8 w-8" />
-              </div>
-              <h1 className="text-3xl font-bold text-primary sm:text-4xl lg:text-5xl">
-                Terms of Service
-              </h1>
-              <p className="mt-3 text-sm text-muted-foreground">
-                Last updated: July 2026
-              </p>
+      <main id="main-content" className="min-h-screen bg-background pt-24 sm:pt-32">
+        <div className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 sm:pb-32 lg:px-8">
+          <header className="border-b border-border pb-10 pt-6 sm:pb-12 sm:pt-10">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-sm border border-gold/25 bg-gold/10 text-gold">
+                <ScrollText className="h-5 w-5" />
+              </span>
+              <span className="text-[11px] font-medium uppercase tracking-[0.28em] text-gold sm:text-xs">
+                Legal
+              </span>
             </div>
+            <h1 className="mt-5 font-display text-4xl font-medium tracking-tight text-primary sm:text-5xl">
+              Terms of Service
+            </h1>
+            <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+              Last updated: July 2026
+            </p>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              These terms govern your use of the website and services of the World
+              Professors Association (&ldquo;WPA&rdquo;). Please read them carefully
+              before accessing or using our services.
+            </p>
+          </header>
 
-            <div className="space-y-8">
-              {sections.map((section, index) => (
-                <div key={index}>
-                  <h2 className="mb-3 text-xl font-bold text-primary">
-                    {index + 1}. {section.title}
+          <div className="mt-2">
+            {sections.map((section, index) => (
+              <section
+                key={section.title}
+                className="border-b border-border py-8 sm:py-10"
+              >
+                <div className="flex items-baseline gap-4">
+                  <span className="font-display text-lg italic text-gold/50 sm:text-xl">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h2 className="font-display text-xl font-medium tracking-tight text-primary sm:text-2xl">
+                    {section.title}
                   </h2>
-                  <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-                    {section.content}
-                  </p>
                 </div>
-              ))}
-            </div>
+                <p className="mt-3 pl-0 text-sm leading-relaxed text-muted-foreground sm:pl-9 sm:text-base">
+                  {section.content}
+                </p>
+              </section>
+            ))}
           </div>
-        </section>
+
+          <div className="mt-10 flex flex-col items-start gap-4 rounded-sm border border-gold/25 bg-gold/[0.04] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+            <div className="flex items-center gap-3">
+              <Mail className="h-5 w-5 text-gold" />
+              <div>
+                <p className="text-sm font-semibold text-primary">Questions?</p>
+                <p className="text-xs text-muted-foreground">
+                  worldprofessorswpa@gmail.com
+                </p>
+              </div>
+            </div>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              WPA • Accra • Global
+            </span>
+          </div>
+        </div>
       </main>
       <FooterSection />
     </>

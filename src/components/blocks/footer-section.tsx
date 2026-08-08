@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Mail, MapPin, Phone } from "lucide-react"
+import { NewsletterSignup } from "@/components/features/newsletter-signup"
 
 const socialLinks = [
   {
@@ -72,150 +73,130 @@ const footerLinks = {
     { label: "Mentorship", href: "#" },
   ],
   connect: [
-    { label: "Join WPA", href: "#" },
+    { label: "Join WPA", href: "#registration" },
+    { label: "Apply for a Role", href: "/apply" },
     { label: "Partner With Us", href: "#" },
-    { label: "Contact Us", href: "#" },
     { label: "Newsletter", href: "#" },
   ],
 }
 
 export function FooterSection() {
   return (
-    <footer className="bg-primary py-12 sm:py-20" role="contentinfo">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 sm:gap-12 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-4 sm:space-y-6">
+    <footer className="relative bg-primary" role="contentinfo">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+          <div className="space-y-6 lg:col-span-5">
             <a href="#" className="flex items-center gap-3">
               <Image
                 src="/logo.jpeg"
                 alt="World Professors Association logo"
                 width={44}
                 height={44}
-                className="rounded-lg object-contain"
+                className="rounded-sm object-contain"
               />
-              <span className="text-lg font-bold text-primary-foreground">
+              <span className="font-display text-xl font-semibold tracking-tight text-primary-foreground">
                 WPA
               </span>
             </a>
-            <p className="text-xs leading-relaxed text-primary-foreground/60 sm:text-sm">
+            <p className="max-w-sm text-sm leading-relaxed text-primary-foreground/60">
               Uniting professors worldwide to advance excellence in education,
               research, and academic leadership for sustainable global
               development.
             </p>
-            <div className="space-y-2 text-xs text-primary-foreground/60 sm:space-y-3 sm:text-sm">
-              <div className="flex items-center gap-2">
+            <p className="font-display text-sm italic text-gold">
+              &ldquo;Uniting Educators, Upholding Quality&rdquo;
+            </p>
+
+            <div className="space-y-3 border-t border-primary-foreground/10 pt-6 text-sm text-primary-foreground/60">
+              <div className="flex items-center gap-3">
                 <MapPin className="h-4 w-4 shrink-0 text-gold" />
-                <span>Global Headquarters</span>
+                <span>Kwame Nkrumah Avenue, Accra - Ghana, West Africa</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-gold" />
-                <span>contact@wpa.global</span>
+                <span>worldprofessorswpa@gmail.com</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-gold" />
-                <span>+1 (555) 123-4567</span>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gold sm:mb-4 sm:text-sm">
-                Follow Us
-              </h4>
-              <div className="flex flex-wrap gap-3">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-foreground/5 text-primary-foreground/60 transition-all duration-200 hover:bg-gold/20 hover:text-gold"
-                  >
-                    {social.icon}
-                  </a>
-                ))}
+                <span>+233 241 044 556</span>
               </div>
             </div>
           </div>
 
-          <div>
-            <h4 className="mb-4 text-xs font-semibold uppercase tracking-wider text-gold sm:mb-6 sm:text-sm">
-              Organization
-            </h4>
-            <ul className="space-y-3 sm:space-y-4">
-              {footerLinks.organization.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-xs text-primary-foreground/60 transition-colors hover:text-gold sm:text-sm"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div className="lg:col-span-2 lg:col-start-7">
+            <FooterColumn title="Organization" links={footerLinks.organization} />
           </div>
-
-          <div>
-            <h4 className="mb-4 text-xs font-semibold uppercase tracking-wider text-gold sm:mb-6 sm:text-sm">
-              Programs
-            </h4>
-            <ul className="space-y-3 sm:space-y-4">
-              {footerLinks.programs.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-xs text-primary-foreground/60 transition-colors hover:text-gold sm:text-sm"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div className="lg:col-span-2">
+            <FooterColumn title="Programs" links={footerLinks.programs} />
           </div>
-
-          <div>
-            <h4 className="mb-4 text-xs font-semibold uppercase tracking-wider text-gold sm:mb-6 sm:text-sm">
-              Connect
-            </h4>
-            <ul className="space-y-3 sm:space-y-4">
-              {footerLinks.connect.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-xs text-primary-foreground/60 transition-colors hover:text-gold sm:text-sm"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div className="lg:col-span-2">
+            <FooterColumn title="Connect" links={footerLinks.connect} />
           </div>
         </div>
 
-        <div className="mt-12 border-t border-primary-foreground/10 pt-8">
-          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <p className="text-xs text-primary-foreground/40 sm:text-sm">
-              &copy; {new Date().getFullYear()} World Professors Association.
-              All rights reserved.
-            </p>
-            <div className="flex gap-6">
-              <a
-                href="/privacy-policy"
-                className="text-xs text-primary-foreground/40 transition-colors hover:text-gold sm:text-sm"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="/terms-of-service"
-                className="text-xs text-primary-foreground/40 transition-colors hover:text-gold sm:text-sm"
-              >
-                Terms of Service
-              </a>
+        <NewsletterSignup />
+
+        <div className="mt-14 flex flex-col items-center justify-between gap-8 border-t border-primary-foreground/10 pt-8 sm:mt-20 sm:flex-row">
+          <div>
+            <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-gold">
+              Follow Us
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="flex h-10 w-10 items-center justify-center rounded-sm border border-primary-foreground/15 text-primary-foreground/60 transition-colors duration-200 hover:border-gold/60 hover:text-gold"
+                >
+                  {social.icon}
+                </a>
+              ))}
             </div>
           </div>
+
+          <div className="flex items-center gap-8 text-sm text-primary-foreground/40">
+            <a href="/privacy-policy" className="transition-colors hover:text-gold">
+              Privacy Policy
+            </a>
+            <a href="/terms-of-service" className="transition-colors hover:text-gold">
+              Terms of Service
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-8 border-t border-primary-foreground/10 pt-6">
+          <p className="text-center text-xs tracking-wide text-primary-foreground/35 sm:text-sm">
+            &copy; {new Date().getFullYear()} World Professors Association. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
+  )
+}
+
+function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+  return (
+    <div>
+      <h4 className="mb-6 text-[11px] font-semibold uppercase tracking-[0.25em] text-gold">
+        {title}
+      </h4>
+      <ul className="space-y-3.5">
+        {links.map((link) => (
+          <li key={link.label}>
+            <a
+              href={link.href}
+              className="group inline-flex items-center gap-2 text-sm text-primary-foreground/60 transition-colors hover:text-primary-foreground"
+            >
+              <span className="h-px w-0 bg-gold transition-all duration-300 group-hover:w-3" />
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }

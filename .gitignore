@@ -45,3 +45,6 @@ deploy.ps1
 
 # google service account credentials
 wpa-credentials.json
+
+dev-server.log
+application form .jpeg

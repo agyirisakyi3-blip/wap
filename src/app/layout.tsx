@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, Fraunces } from "next/font/google"
 import { AnnouncementBanner } from "@/components/features/announcement-banner"
+import { ScrollProgress } from "@/components/features/scroll-progress"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -11,6 +12,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+})
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
 })
 
 export const metadata: Metadata = {
@@ -35,9 +43,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} scroll-smooth`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem('wpa-theme');var t=s==='dark'||s==='light'?s:(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.documentElement.classList.add('dark');document.documentElement.style.colorScheme=t}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-background font-sans antialiased">
+        <ScrollProgress />
         <AnnouncementBanner />
         {children}
       </body>
