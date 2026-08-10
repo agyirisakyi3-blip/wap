@@ -135,24 +135,53 @@ export function ApplyPortal() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    let cancelled = false
+
+    async function fetchJson(url: string, attempts = 3): Promise<unknown> {
+      let lastErr: unknown
+      for (let i = 0; i < attempts; i++) {
+        try {
+          const controller = new AbortController()
+          const timer = setTimeout(() => controller.abort(), 15000)
+          try {
+            const res = await fetch(url, { signal: controller.signal })
+            if (!res.ok) throw new Error(`${url} returned ${res.status}`)
+            return await res.json()
+          } finally {
+            clearTimeout(timer)
+          }
+        } catch (err) {
+          lastErr = err
+          if (i < attempts - 1) {
+            await new Promise((resolve) => setTimeout(resolve, 500 * (i + 1)))
+          }
+        }
+      }
+      throw lastErr
+    }
+
     async function loadData() {
       try {
-        const [catRes, posRes] = await Promise.all([
-          fetch("/api/categories"),
-          fetch("/api/positions"),
+        const [catData, posData] = await Promise.all([
+          fetchJson("/api/categories"),
+          fetchJson("/api/positions"),
         ])
-        if (!catRes.ok || !posRes.ok) throw new Error("Failed to load data")
-        const catData = await catRes.json()
-        const posData = await posRes.json()
-        setSheetCategories(catData.categories)
-        setSheetPositions(posData.positions)
+        if (cancelled) return
+        const rawCategories = (catData as { categories?: unknown } | null)?.categories
+        const rawPositions = (posData as { positions?: unknown } | null)?.positions
+        setSheetCategories(Array.isArray(rawCategories) ? (rawCategories as SheetCategory[]) : [])
+        setSheetPositions(Array.isArray(rawPositions) ? (rawPositions as SheetPosition[]) : [])
       } catch {
-        setError("Failed to load data. Please try again.")
+        if (!cancelled) setError("Failed to load data. Please try again.")
       } finally {
-        setLoading(false)
+        if (!cancelled) setLoading(false)
       }
     }
+
     loadData()
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const categories = useMemo(() => {
